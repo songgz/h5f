@@ -6,41 +6,33 @@
             height  : 100, 
             cls: 'box', 
             'border-style': '#ff0000',          
-            autoEl:'div', //{tag:'div',name:'ss'}
+            autoEl: 'div', //{tag:'div',name:'ss'},
             content: ''    
         };
      
         var settings = $.extend({}, defaults, options );
-
-        var mark = "";
-        var tag = "";
+        
+        var tag = settings.autoEl;
+        var attrs = {};        
         if(typeof settings.autoEl === "object"){
             tag = settings.autoEl.tag;
-            mark += '<'+ tag;
-            foreach(var attr in settings.autoEl){
-                if (settings.autoEl.hasPropject(attr)){
-                    mark += ' attr="' + settings.autoEl[attr] + '"'
+            delete settings.autoEl.tag;           
+            for(var key in settings.autoEl){
+                if (settings.autoEl.hasOwnProperty(key)){
+                    attrs[key] = settings.autoEl[key];
                 }
             }
-        }else{
-            tag = settings.autoEl;
-            mark += tag;
         }
-        mark += '>';
-        mark += settings.content;        
-        mark += '</' + tag + '>';     
-         
 
-
-        var el = $(mark, {
-                css:{
-                    'border-style': 'solid',
-                    'border-color': '#ff0000',
-                    'border-width': 'thin',
-                    width: settings.width +'px',
-                    height: settings['height'] + 'px'
-                }
-            });  
+        var el = $('<' + tag + '>'); 
+        el.attr(attrs);
+        el.css({
+            'border-style': 'solid',
+            'border-color': '#ff0000',
+            'border-width': 'thin',
+            'width': settings.width +'px',
+            'height': settings['height'] + 'px'
+        });  
      
         return this.each(function() {
             var container = this;            
