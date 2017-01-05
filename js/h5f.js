@@ -134,3 +134,53 @@
     }
 
 }(jQuery));
+
+
+
+
+
+
+(function ($) {
+ 
+    var methods = {
+        init: function (options) {
+            // this
+        },
+        show: function () {
+            // is
+        },
+        hide: function () {
+            // good
+        },
+        update: function (content) {
+            // !!!
+        }
+    };
+    $.fn.tooltip = function (method) {
+ 
+        // 方法调用
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Method' + method + 'does not exist on jQuery.tooltip');
+        }
+ 
+    };
+ 
+})(jQuery);
+ 
+//调用init方法
+$('div').tooltip();
+ 
+//调用init方法
+$('div').tooltip({
+    foo: 'bar'
+});
+ 
+// 调用hide方法
+$('div').tooltip('hide');
+ 
+//调用Update方法
+$('div').tooltip('update', 'This is the new tooltip content!');
