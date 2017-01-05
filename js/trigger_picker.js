@@ -2,7 +2,9 @@
     $.fn.triggerPicker = function( options ) {
 
         var defaults = {
+            pickerClass: 'picker',
             triggerClass: 'trigger',
+            triggerClik: function(){alert('sss')},
             readOnly: true            
         };
      
@@ -10,9 +12,10 @@
      
         return this.each(function() {
             var fieldEl = $(this);
+            fieldEl.attr('readonly','readonly');
             var trigger = $('<span>...</span>').addClass(settings.triggerClass);            
-            var el = $('<span></span>');
-            el.on('click', function(){alert('sss');});
+            var el = $('<div class="sss"></div>');
+            el.on('click', function(){settings.triggerClik();});
             fieldEl.wrap(el);
             fieldEl.parent().append(trigger);
         });
