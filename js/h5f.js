@@ -155,7 +155,7 @@
         update: function (content) {
             // !!!
         }
-    };
+    }; 
     $.fn.tooltip = function (method) {
  
         // 方法调用
