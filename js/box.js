@@ -1,31 +1,50 @@
-;(function ($) {
-    $.fn.box = function( options ) {
+;(function (global, $) {
+    'use strict'
 
-        var defaults = {
-            width   : 100,
-            height  : 100, 
-            cls: 'box', 
-            'border-style': '#ff0000',      
-            attrs: {},
-            content: ''    
-        };
-     
-        var settings = $.extend({}, defaults, options );        
-     
-        return this.each(function() {
-            var el = $(this);
-            el.css({
-                'border-style': 'solid',
-                'border-color': '#ff0000',
-                'border-width': 'thin',
-                'width': settings.width +'px',
-                'height': settings['height'] + 'px'
-            });  
-            el.attr(settings.attrs);
-            el.html(settings.content);
-        });
- 
+    function Box(options){
+        this.init(options);
+        this.render();
+        
+        //this.$el.appendTo(this.options.applyTo || document.body);       
+        
+        if(this.options.draggable) {
+            this.$el.draggable({handle: this.options.handle});            
+        }
+        
+        if(this.options.resizable) {
+            
+        }
+
+        return this;
+    }
+
+    Box.prototype.defaults = {};
+
+    Box.prototype.events = {};
+
+    Box.prototype.init = function(options){
+        this.options = $.extend({}, this.defaults, options);
+
+        if(this.options.el){
+            this.$el = $(this.options.el);  
+        }       
+        
+        return this;
+    }
+
+    Box.prototype.bind = function(){};
+
+    Box.prototype.unbind = function(){};
+
+    Box.prototype.render = function(){
+        
     };
 
-}(jQuery));
+    global.Box = global.Box || Box;
+
+
+
+
+
+}(window, jQuery));
 
