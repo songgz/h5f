@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../css/widget.css"/>
     <script type="text/javascript" src="../js/jquery-1.12.4.js"></script> 
     <script type="text/javascript" src="../js/draggable.js" ></script>
+    <script type="text/javascript" src="../js/resizable.js" ></script>
     <script type="text/javascript" src="../js/box.js"></script> 
     <script type="text/javascript" src="../js/dialog.js"></script>    
     
@@ -14,11 +15,11 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){
 
-	new Dialog({draggable: true, handle: '.header'});
 
-});
+	var d = new Dialog({draggable: true, handle: '.header', resizable: true});
+
+
     //$('.dialog-box').draggable({handle: '.header'});
     
 

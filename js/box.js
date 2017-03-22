@@ -3,18 +3,9 @@
 
     function Box(options){
         this.init(options);
+        this.initComponent();
         this.render();
-        
-        //this.$el.appendTo(this.options.applyTo || document.body);       
-        
-        if(this.options.draggable) {
-            this.$el.draggable({handle: this.options.handle});            
-        }
-        
-        if(this.options.resizable) {
-            
-        }
-
+        this.bind();
         return this;
     }
 
@@ -32,19 +23,32 @@
         return this;
     }
 
-    Box.prototype.bind = function(){};
+    Box.prototype.bind = function(){
+        if(this.options.draggable) {
+            this.$el.draggable({handle: this.options.handle});            
+        }
+        
+        if(this.options.resizable) {            
+            this.$el.resizable({handle: '.resize'});
+        }
+    };
 
     Box.prototype.unbind = function(){};
 
-    Box.prototype.render = function(){
-        
+    Box.prototype.initComponent = function(){};
+
+    Box.prototype.render = function(){        
+        this.doRender();         
+        if(this.$el){
+            this.$el.appendTo(this.options.applyTo || document.body);          
+        }
     };
+
+    Box.prototype.doRender = function(){
+        this.$el = $('<div>');        
+    };    
 
     global.Box = global.Box || Box;
 
-
-
-
-
-}(window, jQuery));
+})(window, jQuery);
 
