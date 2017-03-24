@@ -1,7 +1,8 @@
 ;(function($){
-    $.fn.resizable = function(options) {
+    $.fn.makeResizable = function(options) {
         var defaults = {
-           handle: null
+           handle: null,
+           cursor: 'se-resize'
         };
 
         var settings = $.extend({}, defaults, options); 
@@ -15,7 +16,8 @@
 
         return this.each(function() {
             var $el = $(this);
-            var $handle = settings.handle ? $el.find(settings.handle) : $el;            
+            var $handle = settings.handle ? $el.find(settings.handle) : $el;
+            $handle.css('cursor', settings.cursor);
             $handle.on("mousedown.resizable", function(e) {                
                 var startMousePos = getMousePos(e);
                 $(document).on("mousemove.resizable", function(e) {                                

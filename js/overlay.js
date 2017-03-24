@@ -1,65 +1,56 @@
-;(function ($) {
+;(function (global, $) {
+    'use strict'
 
-    var methods = {
-        init: function (options) {
-            var defaults = {
-                color: '#000',
-                opacity: 0.5,
-                zIndex: 5000
-            };
+    var Overlay = function(options){
+    	this.init();
 
-            var settings = $.extend({}, defaults, options);
+    	return this;
+    }
 
-            return this.each(function () {
-                var container = $(this);
-                var overlayExist = container.find('.xmt-overlay').length;
-                if (overlayExist === 0){
-                    var overlay = $('<div></div>', {
-                        'css': {
-                            'position': ($(document.body).css("position") == "fixed") ? "fixed" : "absolute",
-                            'width': '100%',
-                            'height': '100%',
-                            'top': 0,
-                            'left': 0,
-                            'overflow': 'hidden',
-                            'background': settings.color,
-                            'zIndex': settings.zIndex,
-                            'opacity': 0.5
-                        }
-                    }).addClass('xmt-overlay');
-                    container.append(overlay);
-                }
-            });
-
-        },
-        show: function (){
-            return this.each(function(){
-                $(this).find('.xmt-overlay').css('visibility', 'visible');
-            });
-             
-            
-        },
-        hide: function(){
-            return this.each(function(){
-                $(this).find('.xmt-overlay').css('visibility', 'hidden');
-            });
-        },
-        remove: function () {
-            return this.each(function(){
-                $(this).find('.xmt-overlay').remove();
-            });
-        }
+    Overlay.prototype.defaults = {
+    	color: '#000',
+        opacity: 0.5,
+        zIndex: 500
     };
 
-    $.fn.overlay = function (method) {
-
-        if (methods[method]) {
-            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof method === 'object' || !method) {
-            return methods.init.apply(this, arguments);
-        } else {
-            $.error('Method' + method + 'does not exist on jQuery.overlay');
-        }
+    Overlay.prototype.init = function(options){
+    	options = options || {};
+    	this.options = $.extend({}, this.defaults, options);
+    	this.$container  = this.options.applyTo ? $(this.options.applyTo) : $(document.body);
+    	this.$el = $('<div></div>', {
+            'css': {
+                'position': (this.$container.css("position") == "fixed") ? "fixed" : "absolute",
+                'width': '100%',
+                'height': '100%',
+                'top': 0,
+                'left': 0,
+                'overflow': 'hidden',
+                'background': this.options.color,
+                'zIndex': this.options.zIndex,
+                'opacity': 0.5
+            }
+        });
+        this.$container.append(this.$el);        
     };
 
-}(jQuery));
+    Overlay.prototype.show = function(){
+    	this.$el.css({
+    		visibility: 'hidden',    		
+    		opacity: 0
+    	});
+    };
+
+    Overlay.prototype.hide = function(){
+    	this.$el.css({
+    		visibility: 'visible',
+    		opacity: 0.5
+    	});
+    };
+
+    Overlay.prototype.destroy = function(){
+    	this.$el.remove();
+    };
+
+    global.Overlay = global.Overlay || Overlay;
+
+})(window, jQuery);

@@ -1,5 +1,5 @@
 (function($) {
-    $.fn.draggable = function(options) {
+    $.fn.makeDraggable = function(options) {
         var defaults = {
            handle:"",
            cursor:"move"

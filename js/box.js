@@ -9,7 +9,17 @@
         return this;
     }
 
-    Box.prototype.defaults = {};
+    Box.prototype.defaults = {
+        draggable: false,
+        resizable: false,
+        dragHandle: null,
+        resizeHandle: null,
+        width: 100,
+        height: 100,
+        'border-width': 2,
+        'border-style': 'solid',
+        'border-color': '#bd3f09'
+    };
 
     Box.prototype.events = {};
 
@@ -18,18 +28,16 @@
 
         if(this.options.el){
             this.$el = $(this.options.el);  
-        }       
-        
-        return this;
+        }        
     }
 
     Box.prototype.bind = function(){
         if(this.options.draggable) {
-            this.$el.draggable({handle: this.options.handle});            
+            this.$el.makeDraggable({handle: this.options.dragHandle});            
         }
         
         if(this.options.resizable) {            
-            this.$el.resizable({handle: '.resize'});
+            this.$el.makeResizable({handle: this.options.resizeHandle});
         }
     };
 
@@ -40,6 +48,13 @@
     Box.prototype.render = function(){        
         this.doRender();         
         if(this.$el){
+            this.$el.css({
+                width: this.options.width, 
+                height: this.options.height,
+                'border-width': 2,
+                'border-style': 'solid',
+                'border-color': '#bd3f09' 
+            });
             this.$el.appendTo(this.options.applyTo || document.body);          
         }
     };

@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <title>Dialog Demo</title>
     <link rel="stylesheet" type="text/css" href="../css/widget.css"/>
-    <script type="text/javascript" src="../js/jquery-1.12.4.js"></script> 
-    <script type="text/javascript" src="../js/draggable.js" ></script>
-    <script type="text/javascript" src="../js/resizable.js" ></script>
+    <script type="text/javascript" src="../js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="../js/overlay.js"></script> 
+    <script type="text/javascript" src="../js/draggable.js"></script>
+    <script type="text/javascript" src="../js/resizable.js"></script>
     <script type="text/javascript" src="../js/box.js"></script> 
     <script type="text/javascript" src="../js/dialog.js"></script>    
     
@@ -17,7 +18,7 @@
 <script type="text/javascript">
 
 
-	var d = new Dialog({draggable: true, handle: '.header', resizable: true});
+	var d = new Dialog({dragHandle: '.header', resizeHandle: '.resize'});
 
 
     //$('.dialog-box').draggable({handle: '.header'});
