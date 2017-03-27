@@ -41,10 +41,9 @@
         this.events[event] = null;
     };
 
-    Box.prototype.fire = function(event){ 
-        var me = this;       
-        if ($.isFunction(this.events[event])){
-            this.events[event](me);
+    Box.prototype.fire = function(event){             
+        if($.isFunction(this.events[event])){
+            this.events[event](this);
         }        
     };
 
