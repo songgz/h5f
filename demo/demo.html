@@ -22,9 +22,8 @@
     //$(sss).overlay(); 
     //$('.light-box-open').lightBox();
     var o = new Overlay();
-    var b = new Box();
+    var b = new Box({afterRender: function(me){console.log(me.events);}});
 
-    
     //$('#sss').draggable();       
 
 </script>

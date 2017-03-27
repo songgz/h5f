@@ -4,8 +4,7 @@
     function Box(options){
         this.init(options);
         this.initComponent();
-        this.render();
-        this.bind();
+        this.render();        
         return this;
     }
 
@@ -28,20 +27,26 @@
 
         if(this.options.el){
             this.$el = $(this.options.el);  
+        }
+        if(this.options.afterRender){
+            this.bind('afterRender', this.options.afterRender)
         }        
     }
 
-    Box.prototype.bind = function(){
-        if(this.options.draggable) {
-            this.$el.makeDraggable({handle: this.options.dragHandle});            
-        }
-        
-        if(this.options.resizable) {            
-            this.$el.makeResizable({handle: this.options.resizeHandle});
-        }
+    Box.prototype.bind = function(event, fn){
+        this.events[event] = fn;              
     };
 
-    Box.prototype.unbind = function(){};
+    Box.prototype.unbind = function(event){
+        this.events[event] = null;
+    };
+
+    Box.prototype.fire = function(event){ 
+        var me = this;       
+        if ($.isFunction(this.events[event])){
+            this.events[event](me);
+        }        
+    };
 
     Box.prototype.initComponent = function(){};
 
@@ -55,8 +60,16 @@
                 'border-style': 'solid',
                 'border-color': '#bd3f09' 
             });
-            this.$el.appendTo(this.options.applyTo || document.body);          
+            this.$el.appendTo(this.options.applyTo || document.body);
+            if(this.options.draggable) {
+                this.$el.makeDraggable({handle: this.options.dragHandle});            
+            }
+        
+            if(this.options.resizable) {            
+                this.$el.makeResizable({handle: this.options.resizeHandle});
+            }             
         }
+        this.fire('afterRender');
     };
 
     Box.prototype.doRender = function(){

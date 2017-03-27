@@ -40,6 +40,5 @@
                 $(this).removeClass('active-handle').parent().removeClass('draggable');
             }
         });
-
     }
 })(jQuery);
