@@ -4,7 +4,8 @@
     function Box(options){
         this.init(options);
         this.initComponent();
-        this.render();        
+        this.render();
+        this.initEvent();        
         return this;
     }
 
@@ -25,12 +26,9 @@
     Box.prototype.init = function(options){
         this.options = $.extend({}, this.defaults, options);
 
-        if(this.options.el){
-            this.$el = $(this.options.el);  
-        }
-        if(this.options.afterRender){
-            this.bind('afterRender', this.options.afterRender)
-        }        
+        if(this.options.applyTo){            
+            this.$el = (this.options.applyTo instanceof $) ? this.options.applyTo : $(this.options.applyTo);
+        }           
     }
 
     Box.prototype.bind = function(event, fn){
@@ -47,7 +45,9 @@
         }        
     };
 
-    Box.prototype.initComponent = function(){};
+    Box.prototype.initComponent = function(){
+        
+    };
 
     Box.prototype.render = function(){        
         this.doRender();         
@@ -59,20 +59,28 @@
                 'border-style': 'solid',
                 'border-color': '#bd3f09' 
             });
-            this.$el.appendTo(this.options.applyTo || document.body);
-            if(this.options.draggable) {
-                this.$el.makeDraggable({handle: this.options.dragHandle});            
-            }
-        
-            if(this.options.resizable) {            
-                this.$el.makeResizable({handle: this.options.resizeHandle});
-            }             
+            this.$el.appendTo(this.options.applyTo || document.body);            
         }
         this.fire('afterRender');
     };
 
     Box.prototype.doRender = function(){
         this.$el = $('<div>');        
+    };
+
+    Box.prototype.initEvent = function(){
+        if(this.options.draggable) {
+            this.$el.makeDraggable({handle: this.options.dragHandle});            
+        }
+        
+        if(this.options.resizable) {            
+            this.$el.makeResizable({handle: this.options.resizeHandle});
+        }
+
+        if(this.options.afterRender){
+            this.bind('afterRender', this.options.afterRender)
+        }                  
+
     };    
 
     global.Box = global.Box || Box;

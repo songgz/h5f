@@ -1,44 +1,38 @@
-(function($) {
+;(function($){
     $.fn.makeDraggable = function(options) {
         var defaults = {
-           handle:"",
-           cursor:"move"
+           handle: null,
+           cursor: 'move'
         };
-     
-        var settings = $.extend( {}, defaults, options );        
 
-        if(settings.handle === "") {
-            var $el = this;
-        } else {
-            var $el = this.find(settings.handle);
+        var settings = $.extend({}, defaults, options); 
+
+        function getMousePos(e) {
+            return { 
+                x: e.pageX, 
+                y: e.pageY
+            };
         }
 
-        return $el.css('cursor', settings.cursor).on("mousedown", function(e) {
-            if(settings.handle === "") {
-                var $drag = $(this).addClass('draggable');
-            } else {
-                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
-            }
-            var z_idx = $drag.css('z-index'),
-                drg_h = $drag.outerHeight(),
-                drg_w = $drag.outerWidth(),
-                pos_y = $drag.offset().top + drg_h - e.pageY,
-                pos_x = $drag.offset().left + drg_w - e.pageX;
-            $drag.css('z-index', 1000).parents().on("mousemove", function(e) {
-                $('.draggable').offset({
-                    top:e.pageY + pos_y - drg_h,
-                    left:e.pageX + pos_x - drg_w
-                }).on("mouseup", function() {
-                    $(this).removeClass('draggable').css('z-index', z_idx);
+        return this.each(function() {
+            var $el = $(this);
+            var $handle = settings.handle ? $el.find(settings.handle) : $el;
+            $handle.css('cursor', settings.cursor);
+            $handle.on("mousedown.draggable", function(e) {                
+                var startMousePos = getMousePos(e);                
+                $(document).on("mousemove.draggable", function(e) {                    
+                    $el.offset({
+                        top: $el.offset().top + e.pageY - startMousePos.y,
+                        left: $el.offset().left + e.pageX - startMousePos.x
+                    });                    
+                    startMousePos = getMousePos(e);
+                });               
+                $(document).on("mouseup.draggable", function(e) {                
+                    $(document).off("mousemove.draggable mouseup.draggable");
                 });
             });
-            e.preventDefault(); // disable selection
-        }).on("mouseup", function() {
-            if(settings.handle === "") {
-                $(this).removeClass('draggable');
-            } else {
-                $(this).removeClass('active-handle').parent().removeClass('draggable');
-            }
         });
-    }
+    }    
 })(jQuery);
+
+
